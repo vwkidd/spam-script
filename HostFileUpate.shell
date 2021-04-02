@@ -1,0 +1,28 @@
+#! /bin/bash
+## You need to change this script to include your working directory
+## run as root so it can modify you hosts file
+cd /Users/kevin/Scripts
+echo "Going out to get the latest list from someonewhocares.org/hosts/hosts"
+#curl gets text, makes a file with the current date and will overwrite not append if name exists
+#Clear out past host script output
+##rm /Users/kevin/Scripts/hostsTest0*
+curl http://someonewhocares.org/hosts/hosts > /Users/kevin/Scripts/hostsTest"$(date +"%m-%d-%Y")".txt
+echo "file created"
+echo "--------------------"
+ls -larth
+echo "--------------------"
+echo "--------------------"
+echo "--------------------"
+echo "--------------------"
+echo "diffs between the current host file and the new host file that has been created"
+#modify to your pwds
+diff /etc/hosts /Users/kevin/Scripts/hostsTest*
+echo "--------------------"
+echo "--------------------"
+echo "backing up old hosts and moving new one- This must be done as root and this script doesn't check"
+cp /etc/hosts /etc/hosts"$(date +"%m-%d-%Y")".scriptmv.bak
+mv /Users/kevin/Scripts/hostsTest* /etc/hosts
+echo "hosts file has been updated"
+#mv /Users/kevin/Scripts/hostsTest* /Users/kevin/Scripts/processedhostfile"$(date +"%m-%d-%Y")".txt
+echo "check that file was renamed" 
+#open http://www.google.com
